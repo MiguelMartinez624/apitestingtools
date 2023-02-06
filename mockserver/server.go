@@ -6,7 +6,7 @@ import (
 )
 
 type HTTPServer[T interface{}] interface {
-	SetEndpoint(path, method string, handlers T)
+	SetEndpoint(path, method string, handlers []T)
 	ServeHTTP(w http.ResponseWriter, req *http.Request)
 }
 
@@ -20,7 +20,7 @@ func (s *Server[T]) UseServer(runner HTTPServer[T]) *Server[T] {
 	return s
 }
 
-func (s *Server[T]) Endpoint(method, path string, handler T) *Server[T] {
+func (s *Server[T]) Endpoint(method, path string, handler ...T) *Server[T] {
 	if _, ok := s.routes[path]; ok {
 		panic("route already exist")
 	}
