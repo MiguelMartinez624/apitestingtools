@@ -25,14 +25,10 @@ func (receiver RequestResult) Asserts(t *testing.T, asserts ...AssertFunc) {
 	}
 }
 
-func (receiver RequestResult) Result[T interface{}]() T {
-	var result T
-	if err := json.NewDecoder(receiver.output.Body).Decode(&result); err != nil {
+func (receiver RequestResult) Result(output interface{}) {
+	if err := json.NewDecoder(receiver.output.Body).Decode(output); err != nil {
 		panic(err)
 	}
-
-	return T
-
 }
 
 func (receiver RequestResult) Code() int {
